@@ -1,0 +1,27 @@
+name: Tests
+
+on: [push]
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        python-version: ["3.6", "3.7", "3.8", "3.9", "3.10"]
+        django-version: ["2.2", "3.2", "4.0"]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }} on ${{ matrix.os }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install with django ${{ matrix.django-version }}
+      run: |
+        pip install .
+        pip install django==${{ matrix.django-version }}
+    - name: Test
+      run: |
+        python --version
+        coverage run test_project/manage.py test
+        coverage report -m
