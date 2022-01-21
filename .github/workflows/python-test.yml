@@ -25,10 +25,8 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install with django ${{ matrix.django-version }}
       run: |
-        pip install coverage django==${{ matrix.django-version }}
+        pip install django==${{ matrix.django-version }}
         pip install .
     - name: Test
       run: |
-        python --version
-        coverage run test_project/manage.py test
-        coverage report -m
+        python test_project/manage.py test
